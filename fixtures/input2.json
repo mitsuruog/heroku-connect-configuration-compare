@@ -1,0 +1,84 @@
+{
+    "connection": {
+        "app_name": "heroku-connect-mitsuruog-dev2",
+        "exported_at": "2016-02-05T17:52:17.817721+00:00",
+        "organization_id": "00DE0000000L6REMA0"
+    },
+    "mappings": [
+        {
+            "config": {
+                "access": "read_only",
+                "applied_at": "2016-02-05T15:11:21.382Z",
+                "fields": {
+                    "AnnualRevenue": {},
+                    "CreatedDate": {},
+                    "Description": {},
+                    "Id": {},
+                    "Industry": {},
+                    "IsDeleted": {},
+                    "Name": {},
+                    "OwnerId": {},
+                    "Sic": {},
+                    "Site": {},
+                    "SystemModstamp": {},
+                    "Website": {}
+                },
+                "sf_max_daily_api_calls": 30000,
+                "sf_notify_enabled": false,
+                "sf_polling_seconds": 600
+            },
+            "object_name": "Account"
+        },
+        {
+            "config": {
+                "access": "read_only",
+                "fields": {
+                    "CaseNumber": {},
+                    "ClosedDate": {},
+                    "ContactId": {},
+                    "CreatedDate": {},
+                    "Description": {},
+                    "Id": {},
+                    "IsClosed": {},
+                    "IsDeleted": {},
+                    "IsEscalated": {},
+                    "Priority": {},
+                    "Reason": {},
+                    "Status": {},
+                    "Subject": {},
+                    "SystemModstamp": {},
+                    "Type": {}
+                },
+                "sf_max_daily_api_calls": 30000,
+                "sf_notify_enabled": false,
+                "sf_polling_seconds": 600
+            },
+            "object_name": "Case"
+        },
+        {
+            "config": {
+                "access": "read_only",
+                "fields": {
+                    "Company": {},
+                    "CreatedDate": {},
+                    "Email": {},
+                    "FirstName": {},
+                    "Id": {},
+                    "IsConverted": {},
+                    "IsDeleted": {},
+                    "LastName": {},
+                    "Name": {},
+                    "Rating": {},
+                    "Status": {},
+                    "SystemModstamp": {},
+                    "Title": {}
+                },
+                "sf_max_daily_api_calls": 30000,
+                "sf_notify_enabled": false,
+                "sf_polling_seconds": 600
+            },
+            "object_name": "Lead"
+        }
+    ],
+    "version": 1
+}

@@ -1,0 +1,41 @@
+{
+  "name": "heroku-connect-configuration-compare",
+  "version": "0.0.1",
+  "description": "Fetch two Heroku Connect Configuration and Compare together",
+  "license": "MIT",
+  "repository": "mitsuruog/heroku-connect-configuration-compare",
+  "author": {
+    "name": "mitsuruog",
+    "email": "mitsuru.ogawa.jp@gmail.com",
+    "url": "https://github.com/mitsuruog"
+  },
+  "bin": "cli.js",
+  "engines": {
+    "node": ">=4.2.0"
+  },
+  "scripts": {
+    "test": "xo && ava"
+  },
+  "files": [
+    "index.js",
+    "cli.js"
+  ],
+  "keywords": [
+    "cli-app",
+    "cli",
+    "heroku",
+    "heroku connect"
+  ],
+  "dependencies": {
+    "chalk": "^1.1.1",
+    "diff": "^2.2.1",
+    "heroku-connect-configuration-comb": "0.0.3",
+    "meow": "^3.6.0",
+    "mkdirp": "^0.5.1",
+    "shelljs": "^0.6.0"
+  },
+  "devDependencies": {
+    "ava": "^0.8.0",
+    "xo": "^0.12.1"
+  }
+}
