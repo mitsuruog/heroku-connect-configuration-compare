@@ -27,15 +27,15 @@
     "heroku connect"
   ],
   "dependencies": {
-    "chalk": "^1.1.1",
-    "diff": "^2.2.1",
-    "heroku-connect-configuration-comb": "0.0.3",
-    "meow": "^3.6.0",
-    "mkdirp": "^0.5.1",
-    "shelljs": "^0.6.0"
+    "chalk": "^4.1.0",
+    "diff": "^4.0.2",
+    "heroku-connect-configuration-comb": "^0.0.3",
+    "meow": "^8.0.0",
+    "mkdirp": "^1.0.4",
+    "shelljs": "^0.8.4"
   },
   "devDependencies": {
-    "ava": "^0.8.0",
-    "xo": "^0.12.1"
+    "ava": "^3.13.0",
+    "xo": "^0.34.1"
   }
 }
