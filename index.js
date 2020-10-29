@@ -1,6 +1,6 @@
 import { readdirSync, readFile } from "fs";
 import { join } from "path";
-import { structuredPatch } from "diff";
+import diff from "diff";
 import shelljs from "shelljs";
 import chalk from "chalk";
 import mkdirp from "mkdirp";
@@ -81,7 +81,7 @@ function fetchConfigurations(appName1, appName2) {
 }
 
 function evaluateDiff(data) {
-	return structuredPatch(
+	return diff.structuredPatch(
 		"oldFileName",
 		"newFileName",
 		data[0].data,
