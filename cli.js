@@ -1,7 +1,6 @@
 #!/usr/bin/env node
-'use strict';
-var meow = require('meow');
-var herokuConnectConfigurationCompare = require('./');
+import meow from 'meow';
+import herokuConnectConfigurationCompare from './index.js';
 
 // TODO add heroku alias option
 

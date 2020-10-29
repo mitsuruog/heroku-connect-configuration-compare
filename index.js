@@ -1,30 +1,27 @@
-'use strict';
-
-const fs = require('fs');
-const path = require('path');
-const jsdiff = require('diff');
-const shell = require('shelljs');
-const chalk = require('chalk');
-const mkdirp = require('mkdirp');
-const herokuConnectConfigurationComb = require('heroku-connect-configuration-comb');
+import { readdirSync, readFile } from 'fs';
+import { join } from 'path';
+import { structuredPatch } from 'diff';
+import shelljs from 'shelljs';
+import chalk from 'chalk';
+import mkdirp from 'mkdirp';
+import herokuConnectConfigurationComb from 'heroku-connect-configuration-comb';
 
 const WORK_DIR = '.herokuConnectConfigurationCompare_tmp';
 
 function exportConfiguration(appName) {
 	return new Promise((resolve, reject) => {
-		shell.exec(`heroku connect:export --app ${appName}`, (code, stdout, stderr) => {
+		shelljs.exec(`heroku connect:export --app ${appName}`, (code, stdout, stderr) => {
 			if (code !== 0) {
 				reject(stderr);
 			}
 			// [MEMO] herokuコマンドが出力するファイル名WORK_DIRから取得する
 			// ファイル名の先頭はappNameから始まる heroku-app-name-herokuconnect-rectangular-5141.json
-			const dirents = fs.readdirSync(WORK_DIR, { withFileTypes: true });
+			const dirents = readdirSync('./', { withFileTypes: true });
 			const fileName = dirents
 				.filter(dirent => dirent.isFile())
 				.filter(({ name }) => new RegExp(`${appName}-herokuconnect-.+\\.json`).exec(name))
 				.map(({ name }) => name)[0];
-			const filePath = `${WORK_DIR}/${fileName}`
-			resolve(filePath);
+			resolve(fileName);
 		});
 	});
 }
@@ -40,8 +37,8 @@ function combConfiguration(input) {
 
 function readConfiguration(input) {
 	return new Promise((resolve, reject) => {
-		const inputFile = path.join(process.cwd(), input);
-		fs.readFile(inputFile, {
+		const inputFile = join(process.cwd(), input);
+		readFile(inputFile, {
 			encoding: 'utf-8'
 		}, (err, data) => {
 			if (err) {
@@ -76,7 +73,7 @@ function fetchConfigurations(appName1, appName2) {
 }
 
 function evaluateDiff(data) {
-	return jsdiff.structuredPatch('oldFileName', 'newFileName', data[0].data, data[1].data);
+	return structuredPatch('oldFileName', 'newFileName', data[0].data, data[1].data);
 }
 
 function report(data) {
@@ -100,11 +97,12 @@ function lineReporter(data) {
 
 function before() {
 	mkdirp(WORK_DIR);
+	shelljs.cd(WORK_DIR);
 	return Promise.resolve();
 }
 
 function after() {
-	shell.cd('../');
+	shelljs.cd('../');
 	// TODO add options
 	// shell.rm('-rf', WORK_DIR);
 	return Promise.resolve;
@@ -122,4 +120,4 @@ function HerokuConnectConfigurationCompare(appName1, appName2, opts) {
 	});
 }
 
-module.exports = HerokuConnectConfigurationCompare;
+export default HerokuConnectConfigurationCompare;
