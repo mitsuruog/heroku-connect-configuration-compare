@@ -16,9 +16,15 @@ function exportConfiguration(appName) {
 			if (code !== 0) {
 				reject(stderr);
 			}
-			// [MEMO] herokuコマンドのstdoutからファイル名を取得している
-			// Saved config file:  heroku-connect-mitsuruog-dev-herokuconnect-rectangular-5141.json
-			resolve(stdout.split(':')[1].trim());
+			// [MEMO] herokuコマンドが出力するファイル名WORK_DIRから取得する
+			// ファイル名の先頭はappNameから始まる heroku-app-name-herokuconnect-rectangular-5141.json
+			const dirents = fs.readdirSync(WORK_DIR, { withFileTypes: true });
+			const fileName = dirents
+				.filter(dirent => dirent.isFile())
+				.filter(({ name }) => new RegExp(`${appName}-herokuconnect-.+\\.json`).exec(name))
+				.map(({ name }) => name)[0];
+			const filePath = `${WORK_DIR}/${fileName}`
+			resolve(filePath);
 		});
 	});
 }
@@ -94,7 +100,6 @@ function lineReporter(data) {
 
 function before() {
 	mkdirp(WORK_DIR);
-	shell.cd(WORK_DIR);
 	return Promise.resolve();
 }
 
