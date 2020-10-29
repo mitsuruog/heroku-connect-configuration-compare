@@ -1,6 +1,6 @@
-import test from 'ava';
-import fn from './index.js';
+import test from "ava";
+import fn from "./index.js";
 
-test('title', t => {
-	t.is(fn('unicorns'), 'unicorns & rainbows');
+test("title", (t) => {
+	t.is(fn("unicorns"), "unicorns & rainbows");
 });
