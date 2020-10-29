@@ -4,7 +4,7 @@ import herokuConnectConfigurationCompare from './index.js';
 
 // TODO add heroku alias option
 
-var cli = meow([
+const cli = meow([
 	'Usage',
 	'  $ heroku-connect-configuration-compare [appName1] [appName2]',
 	'',
