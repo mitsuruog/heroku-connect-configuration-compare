@@ -1,7 +1,8 @@
 import { mkdirSync, readdirSync, readFile, rmdirSync } from "fs";
 import { join } from "path";
+import { chdir } from "process";
+import { exec } from "child_process";
 import diff from "diff";
-import shelljs from "shelljs";
 import chalk from "chalk";
 import herokuConnectConfigurationComb from "heroku-connect-configuration-comb";
 
@@ -9,24 +10,21 @@ const WORK_DIR = ".herokuConnectConfigurationCompare_tmp";
 
 function exportConfiguration(appName) {
 	return new Promise((resolve, reject) => {
-		shelljs.exec(
-			`heroku connect:export --app ${appName}`,
-			(code, stdout, stderr) => {
-				if (code !== 0) {
-					reject(stderr);
-				}
-				// [MEMO] herokuコマンドが出力するファイル名WORK_DIRから取得する
-				// ファイル名の先頭はappNameから始まる heroku-app-name-herokuconnect-rectangular-5141.json
-				const dirents = readdirSync("./", { withFileTypes: true });
-				const fileName = dirents
-					.filter((dirent) => dirent.isFile())
-					.filter(({ name }) =>
-						new RegExp(`${appName}-herokuconnect-.+\\.json`).exec(name)
-					)
-					.map(({ name }) => name)[0];
-				resolve(fileName);
+		exec(`heroku connect:export --app ${appName}`, (error, stdout, stderr) => {
+			if (error) {
+				reject(stderr);
 			}
-		);
+			// [MEMO] herokuコマンドが出力するファイル名WORK_DIRから取得する
+			// ファイル名の先頭はappNameから始まる heroku-app-name-herokuconnect-rectangular-5141.json
+			const dirents = readdirSync("./", { withFileTypes: true });
+			const fileName = dirents
+				.filter((dirent) => dirent.isFile())
+				.filter(({ name }) =>
+					new RegExp(`${appName}-herokuconnect-.+\\.json`).exec(name)
+				)
+				.map(({ name }) => name)[0];
+			resolve(fileName);
+		});
 	});
 }
 
@@ -119,12 +117,12 @@ function lineReporter(data) {
 function before() {
 	rmdirSync(WORK_DIR, { recursive: true });
 	mkdirSync(WORK_DIR, { recursive: true });
-	shelljs.cd(WORK_DIR);
+	chdir(WORK_DIR);
 	return Promise.resolve();
 }
 
 function after() {
-	shelljs.cd("../");
+	chdir("../");
 	// TODO add options
 	// shell.rm('-rf', WORK_DIR);
 	return Promise.resolve;

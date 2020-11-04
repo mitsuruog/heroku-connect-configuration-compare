@@ -33,8 +33,7 @@
     "chalk": "^4.1.0",
     "diff": "^4.0.2",
     "heroku-connect-configuration-comb": "^0.0.3",
-    "meow": "^8.0.0",
-    "shelljs": "^0.8.4"
+    "meow": "^8.0.0"
   },
   "devDependencies": {
     "ava": "^3.13.0",
