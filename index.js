@@ -8,9 +8,12 @@ import herokuConnectConfigurationComb from "heroku-connect-configuration-comb";
 
 const WORK_DIR = ".herokuConnectConfigurationCompare_tmp";
 
-function exportConfiguration(appName) {
+function exportConfiguration(appName, opts) {
 	return new Promise((resolve, reject) => {
-		exec(`heroku connect:export --app ${appName}`, (error, stdout, stderr) => {
+		const cli = opts["cli"] || "heroku connect:export";
+		const command = `${cli} --app ${appName}`;
+		console.info(`[Exec] ${command}`);
+		exec(command, (error, stdout, stderr) => {
 			if (error) {
 				reject(stderr);
 			}
@@ -57,9 +60,9 @@ function readConfiguration(input) {
 	});
 }
 
-function fetchConfiguration(appName) {
+function fetchConfiguration(appName, opts) {
 	return new Promise((resolve) => {
-		exportConfiguration(appName)
+		exportConfiguration(appName, opts)
 			.then(combConfiguration)
 			.then(readConfiguration)
 			.then((data) => {
@@ -68,11 +71,11 @@ function fetchConfiguration(appName) {
 	});
 }
 
-function fetchConfigurations(appName1, appName2) {
+function fetchConfigurations(appName1, appName2, opts) {
 	return new Promise((resolve) => {
 		Promise.all([
-			fetchConfiguration(appName1),
-			fetchConfiguration(appName2),
+			fetchConfiguration(appName1, opts),
+			fetchConfiguration(appName2, opts),
 		]).then((data) => resolve(data));
 	});
 }
@@ -128,14 +131,12 @@ function after() {
 	return Promise.resolve;
 }
 
-function HerokuConnectConfigurationCompare(appName1, appName2) {
-	return new Promise(() => {
-		before()
-			.then(() => fetchConfigurations(appName1, appName2))
-			.then(evaluateDiff)
-			.then(report)
-			.then(after);
-	});
+function HerokuConnectConfigurationCompare(appName1, appName2, opts) {
+	return before()
+		.then(() => fetchConfigurations(appName1, appName2, opts || {}))
+		.then(evaluateDiff)
+		.then(report)
+		.then(after);
 }
 
 export default HerokuConnectConfigurationCompare;
