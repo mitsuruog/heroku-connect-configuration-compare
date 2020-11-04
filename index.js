@@ -1,9 +1,8 @@
-import { readdirSync, readFile } from "fs";
+import { mkdirSync, readdirSync, readFile, rmdirSync } from "fs";
 import { join } from "path";
 import diff from "diff";
 import shelljs from "shelljs";
 import chalk from "chalk";
-import mkdirp from "mkdirp";
 import herokuConnectConfigurationComb from "heroku-connect-configuration-comb";
 
 const WORK_DIR = ".herokuConnectConfigurationCompare_tmp";
@@ -118,7 +117,8 @@ function lineReporter(data) {
 }
 
 function before() {
-	mkdirp(WORK_DIR);
+	rmdirSync(WORK_DIR, { recursive: true });
+	mkdirSync(WORK_DIR, { recursive: true });
 	shelljs.cd(WORK_DIR);
 	return Promise.resolve();
 }
