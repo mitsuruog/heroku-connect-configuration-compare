@@ -1,6 +1,6 @@
 {
   "name": "heroku-connect-configuration-compare",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Fetch two Heroku Connect Configuration and Compare together",
   "license": "MIT",
   "repository": "mitsuruog/heroku-connect-configuration-compare",
